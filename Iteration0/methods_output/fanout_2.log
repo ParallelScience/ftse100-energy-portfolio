@@ -1,0 +1,262 @@
+
+###### PROMPT BEGINS ########
+Human: You are provided with:
+- a description of the data
+- an idea
+- research plan to carry out the idea.
+
+Your task is to provide suggestions on how to improve the plan.
+Take into account and potential feedback (if any).
+If the plan is already good enough, do not give suggestions to improve it. If this is not first iteration, you will also be provided with the previous research plan along with some feedback on it. If this is the case, take into account the feedback provided when designing the new research plan. It is good to have a detailed plan, but not to have an overly complicated plan. If you dont have suggestions, just say that you dont have further suggestions. The idea should remain the same. No need to add code to the research plan, as another agent will write code given the research plan.
+
+Data description:
+# FTSE100 Energy Sector Stock Data — Data Description
+
+## Overview
+
+This dataset contains daily OHLCV (Open, High, Low, Close, Volume) price data for **7 energy sector stocks** listed on the **FTSE 100 index** over a **3-month period** from **2026-01-13 to 2026-04-10**. It was downloaded via the `yfinance` Python library from Yahoo Finance.
+
+The dataset is intended for extended quantitative research including but not limited to: return analysis, volatility modeling, cross-asset correlation, portfolio optimization, risk management, and time-series forecasting.
+
+---
+
+## File Inventory
+
+| File | Path | Description |
+|------|------|-------------|
+| Raw CSV | `/home/node/.openclaw/workspace/ftse100_energy_data.csv` | Multi-index pandas DataFrame, CSV format |
+| This document | `/home/node/.openclaw/workspace/ftse100_energy_data_description.md` | Data description |
+
+---
+
+## Dataset Schema
+
+### File: `ftse100_energy_data.csv`
+
+**Format:** CSV with multi-index columns (Ticker → Price Type)
+
+**Index:** `Date` — daily timestamps, timezone-naive, representing the end-of-trading-day values.
+
+**Multi-index columns:** `(Ticker, PriceType)` where:
+- `Ticker` ∈ `{ITH.L, ENOG.L, HBR.L, SHEL.L, CNA.L, SSE.L, BP.L}`
+- `PriceType` ∈ `{Open, High, Low, Close, Volume}`
+
+**Shape:** 62 rows × 35 columns (5 price types × 7 tickers)
+
+### Column Reference Table
+
+| Ticker | Full Name | Open | High | Low | Close | Volume |
+|--------|-----------|------|------|-----|-------|--------|
+| `ITH.L` | Ithaca Energy | ✓ | ✓ | ✓ | ✓ | ✓ |
+| `ENOG.L` | Energean | ✓ | ✓ | ✓ | ✓ | ✓ |
+| `HBR.L` | Harbour Energy | ✓ | ✓ | ✓ | ✓ | ✓ |
+| `SHEL.L` | Shell | ✓ | ✓ | ✓ | ✓ | ✓ |
+| `CNA.L` | Centrica | ✓ | ✓ | ✓ | ✓ | ✓ |
+| `SSE.L` | SSE | ✓ | ✓ | ✓ | ✓ | ✓ |
+| `BP.L` | BP | ✓ | ✓ | ✓ | ✓ | ✓ |
+
+### Data Types
+
+| Column Type | dtype | Description |
+|-------------|-------|-------------|
+| Price columns (Open, High, Low, Close) | `float64` | GBP (£) price values |
+| Volume column | `int64` | Number of shares traded that day |
+| Date index | `datetime64[ns]` | Trading day (timezone-naive) |
+
+---
+
+## Temporal Coverage
+
+| Field | Value |
+|-------|-------|
+| Start Date | 2026-01-13 |
+| End Date | 2026-04-10 |
+| Total Trading Days | 62 |
+| January 2026 | 14 trading days |
+| February 2026 | 20 trading days |
+| March 2026 | 22 trading days |
+| April 2026 | 6 trading days |
+
+---
+
+## Included Stocks — Business Context
+
+| Ticker | Full Name | LSE Sector | Sub-Sector |
+|--------|-----------|------------|------------|
+| `SHEL.L` | Shell plc | Integrated Oil & Gas | Major diversified energy group |
+| `BP.L` | BP plc | Integrated Oil & Gas | Major diversified energy group |
+| `SSE.L` | SSE plc | Utilities | Multi-utility (electricity, gas) |
+| `CNA.L` | Centrica plc | Utilities | Energy generation, supply, services |
+| `HBR.L` | Harbour Energy plc | Oil & Gas E&P | North Sea-focused E&P |
+| `ITH.L` | Ithaca Energy plc | Oil & Gas E&P | North Sea-focused E&P |
+| `ENOG.L` | Energean plc | Oil & Gas E&P | Mediterranean/North Sea E&P |
+
+---
+
+## Descriptive Statistics
+
+### Price Statistics (Close, in GBP £)
+
+| Ticker | Name | Min | Max | Mean | Std |
+|--------|------|-----|-----|------|-----|
+| `ITH.L` | Ithaca Energy | £167.74 | £283.90 | £215.52 | £35.48 |
+| `ENOG.L` | Energean | £828.50 | £939.69 | £878.36 | £29.44 |
+| `HBR.L` | Harbour Energy | £201.94 | £318.71 | £251.83 | £33.97 |
+| `SHEL.L` | Shell | £2672.25 | £3583.00 | £3070.63 | £301.41 |
+| `CNA.L` | Centrica | £176.47 | £218.66 | £196.06 | £10.43 |
+| `SSE.L` | SSE | £2250.00 | £2757.50 | £2555.00 | £137.71 |
+| `BP.L` | BP | £436.74 | £606.30 | £499.53 | £52.56 |
+
+### Daily Log Return Statistics
+
+| Ticker | Name | Mean (μ) | Std (σ) | Min | Max |
+|--------|------|----------|---------|-----|-----|
+| `ITH.L` | Ithaca Energy | +0.620% | 3.420% | -9.195% | +11.361% |
+| `ENOG.L` | Energean | -0.117% | 2.190% | -7.140% | +4.278% |
+| `HBR.L` | Harbour Energy | +0.522% | 3.431% | -7.286% | +9.091% |
+| `SHEL.L` | Shell | +0.375% | 1.600% | -4.794% | +3.097% |
+| `CNA.L` | Centrica | +0.282% | 1.654% | -5.291% | +4.171% |
+| `SSE.L` | SSE | +0.330% | 1.569% | -3.062% | +3.640% |
+| `BP.L` | BP | +0.448% | 2.377% | -6.330% | +5.299% |
+
+---
+
+## Correlation Structure
+
+### Daily Log Returns Correlation
+
+| | Ithaca | Energean | Harbour | Shell | Centrica | SSE | BP |
+|--|--------|----------|---------|-------|----------|-----|----|
+| Ithaca | 1.00 | 0.47 | 0.68 | 0.61 | 0.16 | 0.11 | 0.75 |
+| Energean | 0.47 | 1.00 | 0.34 | 0.32 | 0.11 | -0.01 | 0.41 |
+| Harbour | 0.68 | 0.34 | 1.00 | 0.62 | 0.09 | 0.09 | 0.62 |
+| Shell | 0.61 | 0.32 | 0.62 | 1.00 | 0.23 | 0.23 | 0.75 |
+| Centrica | 0.16 | 0.11 | 0.09 | 0.23 | 1.00 | 0.61 | 0.27 |
+| SSE | 0.11 | -0.01 | 0.09 | 0.23 | 0.61 | 1.00 | 0.09 |
+| BP | 0.75 | 0.41 | 0.62 | 0.75 | 0.27 | 0.09 | 1.00 |
+
+---
+
+## Data Quality
+
+| Check | Result |
+|-------|--------|
+| Missing values | **0** — No missing OHLCV entries |
+| High-Low consistency | All rows satisfy High ≥ Low |
+| Close within [Open, High, Low] | All rows satisfy Low ≤ Close ≤ High |
+
+---
+
+## Known Limitations
+
+1. **No Adjusted Close column** — no dividend/split adjustments
+2. **Short time series** — 62 observations limits model complexity
+3. **No benchmark data** — FTSE100 index not included
+4. **Currency** — prices likely in GBX (pence), not GBP
+
+---
+
+## Suggested Analyses
+
+- **GARCH volatility modeling** (arch library)
+- **Mean-variance portfolio optimization** (cvxpy)
+- **VaR / CVaR risk analysis**
+- **Factor models** (market + oil/gas price factors)
+- **Rolling correlation and DCC-GARCH**
+- **Drawdown and tail risk analysis**
+
+---
+
+## Loading the Data (Python)
+
+```python
+import pandas as pd
+
+df = pd.read_csv(
+    '/home/node/.openclaw/workspace/ftse100_energy_data.csv',
+    header=[0, 1],
+    index_col=0,
+    parse_dates=True
+)
+
+close_prices = df.xs('Close', level=1, axis=1)
+log_returns = np.log(close_prices / close_prices.shift(1)).dropna()
+```
+
+---
+
+*Source: Yahoo Finance via yfinance | Download date: 2026-04-13*
+
+Idea:
+**Title: Variance Budgeting: Decomposing Systematic and Idiosyncratic Risk in FTSE 100 Energy Sub-Sectors**
+
+This research employs a variance decomposition framework to isolate the contribution of Integrated Oil & Gas majors (SHEL.L, BP.L, SSE.L, CNA.L) versus North Sea-focused E&P pure-plays (ITH.L, HBR.L, ENOG.L) to the total realized volatility of the FTSE 100 energy cohort. By calculating the daily rolling realized variance for each constituent and aggregating them into sub-sector indices, the model quantifies the proportion of sector-wide risk attributable to idiosyncratic E&P shocks versus diversified utility and integrated volatility. To address the absence of dividend-adjusted data, the analysis utilizes a robust M-estimator for variance calculation, which downweights the impact of discrete price jumps (ex-dividend events) that would otherwise inflate volatility estimates in a short 62-day sample. The study maps the "volatility budget" of the sector, identifying specific temporal regimes where E&P-specific tail risk dominates the broader energy price action. This objective provides a statistically sound descriptive profile of risk concentration, moving away from spurious predictive modeling to a rigorous characterization of current energy sector instability.
+
+Research plan:
+1. **Data Preprocessing and Normalization**
+   - Load the multi-index CSV and extract the 'Close' price series for all seven tickers.
+   - Convert price data from GBX to GBP by dividing by 100 to ensure standard currency units.
+   - Calculate daily log returns for each ticker.
+   - Construct two sub-sector indices: "Integrated/Utility" (SHEL.L, BP.L, SSE.L, CNA.L) and "E&P Pure-Plays" (ITH.L, HBR.L, ENOG.L) using an equal-weighted average of their respective log returns.
+
+2. **Robust Variance Estimation**
+   - Implement a Huber M-estimator to calculate daily realized variance for each individual stock and the two sub-sector indices.
+   - Use a rolling window approach (e.g., 10-day window) to compute these robust variance estimates, ensuring that discrete price jumps (potential ex-dividend events) are downweighted to prevent artificial inflation of volatility metrics.
+
+3. **Variance Decomposition Framework**
+   - Define the total sector variance as the sum of the variances of the two sub-sector indices plus their covariance.
+   - Decompose the total realized variance of the energy cohort into three components: the variance contribution of the Integrated/Utility sub-sector, the variance contribution of the E&P sub-sector, and the interaction (covariance) term.
+
+4. **Volatility Budgeting Calculation**
+   - Calculate the "Volatility Budget" for each sub-sector by dividing the individual sub-sector variance contribution by the total sector variance.
+   - Express these as percentages to quantify the relative weight of each sub-sector in the total realized risk of the FTSE 100 energy cohort over the 62-day period.
+
+5. **Idiosyncratic vs. Systematic Risk Mapping**
+   - Regress the returns of each individual stock against the aggregate energy sector index to isolate idiosyncratic risk (the residual variance).
+   - Quantify the proportion of each stock's total variance that is idiosyncratic versus systematic (market-driven) to determine which sub-sector is more prone to independent volatility shocks.
+
+6. **Temporal Regime Identification**
+   - Plot the rolling variance contributions and the volatility budget over the 62-day timeline.
+   - Identify specific temporal clusters or regimes where the E&P sub-sector's contribution to total variance spikes significantly relative to the Integrated/Utility sub-sector.
+
+7. **Tail Risk and Drawdown Analysis**
+   - Calculate the maximum drawdown for each sub-sector index over the 3-month period.
+   - Correlate these drawdown events with the identified spikes in the volatility budget to determine if E&P-specific tail risk is the primary driver of sector-wide instability.
+
+8. **Statistical Validation**
+   - Perform a sensitivity analysis by varying the M-estimator tuning constant to ensure the robustness of the variance decomposition results.
+   - Summarize the findings into a final "Risk Profile" table, contrasting the volatility contribution and idiosyncratic risk levels of the two sub-sectors.
+
+Previous research plan:
+None
+
+Feedback on previous research plan:
+None
+
+
+Respond in this format:
+
+\\begin{SUGGESTIONS}
+<SUGGESTIONS>
+\\end{SUGGESTIONS}
+
+In <SUGGESTIONS> put the suggestions to improve the plan.
+
+###### PROMPT ENDS ########
+
+\begin{SUGGESTIONS}
+The research plan is well-structured and logically sound. However, given the 62-day sample size and the specific nature of the "Variance Budgeting" idea, I suggest the following refinements to improve robustness and clarity:
+
+1. **Refine the Sub-Sector Index Construction:** In Step 1, you define an equal-weighted average of log returns. Since the stocks have vastly different price levels (e.g., SHEL.L at ~£3000 vs. ITH.L at ~£200), an equal-weighted return index is appropriate, but ensure you explicitly state that you are rebalancing daily (or keeping weights constant) to avoid drift.
+
+2. **Clarify the M-Estimator Implementation:** In Step 2, ensure the implementation of the Huber M-estimator is clearly defined for a rolling window. Since you are dealing with a short 62-day window, a 10-day rolling window is reasonable, but be aware that this will result in a loss of the first 9 days of data. Consider using an expanding window or a shorter window (e.g., 5-day) if the results appear too smoothed.
+
+3. **Address the "Interaction Term" in Decomposition:** In Step 3, the decomposition of variance for a portfolio is typically $Var(w_1R_1 + w_2R_2) = w_1^2\sigma_1^2 + w_2^2\sigma_2^2 + 2w_1w_2Cov(R_1, R_2)$. Ensure your "Volatility Budget" calculation in Step 4 explicitly accounts for how the covariance term is allocated (e.g., splitting it equally between the two sub-sectors or assigning it to the "Systematic" component) to ensure the percentages sum to 100%.
+
+4. **Refine the Idiosyncratic Risk Mapping:** In Step 5, you mention regressing individual stocks against the "aggregate energy sector index." Ensure this index is constructed as the value-weighted or equal-weighted average of *all seven* stocks to serve as a proper proxy for the market factor.
+
+5. **Add a Visualization Step:** Given the temporal nature of the analysis, explicitly include a step to generate a "Stacked Area Chart" of the volatility budget over time. This will visually demonstrate the shift between Integrated/Utility-driven risk and E&P-driven risk, which is the core of your research goal.
+
+6. **Currency Correction:** You correctly identified in the limitations that the data is likely in GBX. Your plan to divide by 100 is correct, but ensure this is applied to the 'Open', 'High', 'Low', and 'Close' columns immediately upon loading to prevent any downstream errors in return calculations.
+\end{SUGGESTIONS}
+
